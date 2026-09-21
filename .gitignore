@@ -1,14 +1,15 @@
+# Environment variables
+.env
+
 # Python
 __pycache__/
 *.py[cod]
 
 # Virtual environments
 venv/
+venv312/
+genai/
 .venv/
-env/
-
-# Environment variables
-.env
 
 # Jupyter
 .ipynb_checkpoints/
@@ -16,9 +17,9 @@ env/
 # Streamlit
 .streamlit/
 
-# ChromaDB
+# Chroma / vector database
 chroma/
-*.sqlite3
+chroma_db/
 
 # Temporary files
 *.tmp
@@ -28,4 +29,8 @@ chroma/
 .DS_Store
 Thumbs.db
 
-data/*.pdf
+# VS Code
+.vscode/
+
+# Uploaded PDFs
+data/
