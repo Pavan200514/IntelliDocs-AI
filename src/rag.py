@@ -1,8 +1,11 @@
+import os
 import re
 import streamlit as st
 
-from langchain_ollama import OllamaLLM
+from dotenv import load_dotenv
+from langchain_groq import ChatGroq
 
+load_dotenv()
 
 # --------------------------------------------------
 # MAIN LLM
@@ -11,11 +14,11 @@ from langchain_ollama import OllamaLLM
 @st.cache_resource
 def create_llm():
 
-    return OllamaLLM(
-        model="llama3.2:3b",
-        num_predict=300
+    return ChatGroq(
+        model="qwen/qwen3.8-27b",
+        temperature=0,
+        max_tokens=1000
     )
-
 
 # --------------------------------------------------
 # ASK QUESTION
@@ -54,7 +57,7 @@ Answer:
 """
 
     response = llm.invoke(prompt)
-
+    response=response.content.strip()
     return response, results
 
 
@@ -128,7 +131,16 @@ STUDY NOTES:
 {context}
 """
 
-    response = llm.invoke(prompt).strip()
+    response = llm.invoke(prompt)
+    print("TYPE:", type(response))
+    print("RAW OBJECT:", repr(response))
+    print("CONTENT:", repr(response.content))
+    response = response.content
+
+    if not isinstance(response, str):
+        response = str(response)
+
+    response = response.strip()
 
     # Show the raw response in terminal for debugging
     print("\n===== RAW QUIZ RESPONSE =====")
@@ -288,4 +300,4 @@ SUMMARY:
 
     response = llm.invoke(prompt)
 
-    return response
+    return response.content
